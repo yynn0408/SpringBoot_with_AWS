@@ -6,7 +6,10 @@ var main = {//index.js의 scope 임. 이후 다른 파일에서 동일 명칭의
         });
         $('#btn-update').on('click',function(){
             _this.update();
-        })
+        });
+        $('#btn-delete').on('click',function(){
+            _this.delete();
+        });
     },
     save : function(){
         var data = {
@@ -25,17 +28,16 @@ var main = {//index.js의 scope 임. 이후 다른 파일에서 동일 명칭의
             window.location.href='/';
         }).fail(function (error){
             alert(JSON.stringify(error));
-        }
-        )
-    }
+        });
+    },
     update : function(){
         var data ={
-            title :$('#title').val()
+            title :$('#title').val(),
             content:$('#content').val()
         }
         var id =$('#id').val();
         $.ajax({
-            type:'PUT'
+            type:'PUT',
             url: '/api/v1/posts/'+id,
             dataType:'json',
             contentType:'application/json; charset=utf-8',
@@ -45,7 +47,21 @@ var main = {//index.js의 scope 임. 이후 다른 파일에서 동일 명칭의
             window.location.href='/';
         }).fail(function(error){
             alert(JSON.stringify(error));
-        })
+        });
+    },
+    delete :function(){
+        var id = $('#id').val();
+        $.ajax({
+            type: 'DELETE',
+            url: '/api/v1/posts/'+id,
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8'
+        }).done(function(){
+            alert('글이 삭제되었습니다.');
+            window.location.href ='/';
+        }).fail(function(error){
+            alert(JSON.stringify(error));
+        });
     }
 };
 main.init();
